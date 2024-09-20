@@ -1,17 +1,24 @@
 import { useState } from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .get("", email, password)
-      .then((result) => console.log(result))
+      .post("http://localhost:5000/api/login", { email, password })
+      .then((result) => {
+        console.log(result);
+        if (result.data === "Success") {
+          navigate("/home");
+        }
+      })
       .catch((err) => console.log(err));
   };
 
@@ -37,6 +44,7 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   placeholder="Email Address"
+                  required
                 />
               </div>
               <div id="emailHelp" className="form-text text-muted">
@@ -48,6 +56,7 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   placeholder="Password"
+                  required
                 />
               </div>
               <div id="emailHelp" className="form-text text-muted">

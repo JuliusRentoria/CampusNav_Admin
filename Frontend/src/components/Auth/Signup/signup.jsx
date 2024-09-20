@@ -8,11 +8,7 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate("/");
-  };
-
-  const handleRequestAccess = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   const [email, setEmail] = useState();
@@ -22,11 +18,11 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(
-        "mongodb+srv://admin:admin@campusnav.4gjla.mongodb.net/admin_accounts/signup",
-        { email, username, password }
-      )
-      .then((result) => console.log(result))
+      .post("http://localhost:5000/api/account", { email, username, password })
+      .then((result) => {
+        console.log(result);
+        navigate("/login");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -91,19 +87,15 @@ function Signup() {
               <div id="passwordHelp" className="form-text text-muted">
                 Please enter your Password.
               </div>
+              <div className="signup-links d-flex justify-content-between mt-3">
+                <button type="submit" className="btn btn-primary me-2">
+                  Signup
+                </button>
+                <button onClick={handleGoBack} className="btn btn-primary me-2">
+                  Go Back
+                </button>
+              </div>
             </form>
-
-            <div className="signup-links d-flex justify-content-between mt-3">
-              <button
-                onClick={handleRequestAccess}
-                className="btn btn-primary me-2"
-              >
-                Signup
-              </button>
-              <button onClick={handleGoBack} className="btn btn-primary me-2">
-                Go Back
-              </button>
-            </div>
           </div>
         </div>
       </div>
